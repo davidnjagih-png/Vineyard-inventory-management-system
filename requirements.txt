@@ -1,0 +1,55 @@
+Users file
+- create a login portal with authentication and user management features. 
+- the portal should allow users to login based on their credentials and access different features based on their roles. 
+- The portal should include the following functionalities:
+    - user login and logout (based on hardcoded credentials)
+    - user profile: 
+        - admin: can add new wine batches (record type, vintage, quantity)
+        - manager: can track stock levels (table grapes and wine grapes quantity and quality)
+        - sales team  view sales projections and price wine and table grapes
+        - owner view a dashboard summary and create new user accounts with specific roles (admin, manager, sales team)
+    - user registration (with role selection)(to be accessible only by the owner)
+
+
+wine batch management:
+    - Admin can add new wine batches with details such as record type, vintage, and quantity.
+    - Admin can edit or delete existing wine batches.
+    - sales team can view wine batches and their details but cannot modify them.
+    - sales team can also view sales projections and price wine based on the available stock.
+
+
+grape stock management:
+    - Manager can track stock levels of table grapes and wine grapes, including quantity and quality.
+    - Manager can update stock levels as needed.
+    - Sales team can view stock levels but cannot modify them.
+    - sales team can also view sales projections and price table grapes based on the available stock.
+
+
+sales  projections:
+    - Sales team can view sales projections for both wine and table grapes.
+    - Sales team can price wine and table grapes based on current stock levels and market trends.
+    - Sales team can generate reports on sales performance and projections.
+
+
+inventory management logic:
+    - The system should maintain an inventory of wine batches and grape stock levels.
+    - Inventory levels should be updated in real-time based on sales and stock updates.
+    - The system should provide alerts for low stock levels and allow managers to reorder as necessary.
+    - The system should generate reports on inventory status, including current stock levels, sales performance, and projections.
+
+forecasting logic:
+    - The system should include forecasting logic to predict future sales and stock requirements based on historical data and market trends.
+    - The forecasting model should take into account seasonal variations, market demand, and other relevant factors.
+    - The system should provide recommendations for inventory management based on the forecasted data.
+
+cli interface:
+    - The portal should have a command-line interface (CLI) for users to interact with the system.
+    - The CLI should provide clear instructions and prompts for users to perform various actions based on their roles.
+    - The CLI should include error handling and validation to ensure smooth user experience.
+
+
+main.py:
+    - The main entry point of the application, which initializes the CLI and handles user authentication.
+    - The main.py file should include logic to route users to their respective functionalities based on their roles.
+    - It should also handle user registration for the owner role and manage user sessions.
+
