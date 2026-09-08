@@ -33,7 +33,7 @@ sales  projections:
 
 inventory management logic:
     - The system should maintain an inventory of wine batches and grape stock levels.
-    - Inventory levels should be updated in real-time based on sales and stock updates.
+    - Inventory levels should be updated in real- time based on sales and stock updates.
     - The system should provide alerts for low stock levels and allow managers to reorder as necessary.
     - The system should generate reports on inventory status, including current stock levels, sales performance, and projections.
 
@@ -43,7 +43,7 @@ forecasting logic:
     - The system should provide recommendations for inventory management based on the forecasted data.
 
 cli interface:
-    - The portal should have a command-line interface (CLI) for users to interact with the system.
+    - The portal should have a command- line interface (CLI) for users to interact with the system.
     - The CLI should provide clear instructions and prompts for users to perform various actions based on their roles.
     - The CLI should include error handling and validation to ensure smooth user experience.
 
@@ -53,3 +53,7 @@ main.py:
     - The main.py file should include logic to route users to their respective functionalities based on their roles.
     - It should also handle user registration for the owner role and manage user sessions.
 
+tests:
+    - The application should include unit tests to verify the functionality of each component.
+    - Tests should cover user authentication, role-based access control, inventory management, sales projections, and forecasting logic.
+    - The tests should ensure that the system behaves as expected under various scenarios and edge cases.
