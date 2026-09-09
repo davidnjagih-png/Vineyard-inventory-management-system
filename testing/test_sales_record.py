@@ -1,10 +1,10 @@
 import pytest
 from models.sales_record import SalesRecord
 
-# --- Sales Projections: Wine ---
+#Sales Projections: Wine
 
 def test_view_wine_sales_projection():
-    record = SalesRecord(item="red wine", quantity=100, price_per_unit=750)  # price per bottle in KES
+    record = SalesRecord(item="red wine", quantity=100, price_per_unit=750)  
     projection = record.calculate_projection()
     assert projection == 100 * 750
 
@@ -14,7 +14,7 @@ def test_price_wine_by_type():
     assert record.price_per_unit == 600
     assert record.calculate_projection() == 50 * 600
 
-# --- Sales Projections: Table Grapes ---
+# Sales Projections: Table Grapes
 
 def test_view_table_grape_projection():
     record = SalesRecord(item="table grapes", quantity=40, price_per_unit=100)  # price per packet
