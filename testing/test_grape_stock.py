@@ -25,12 +25,10 @@ def test_wine_grape_red_variety():
 
     assert grapes.variety == "red"
 
-
 def test_wine_grape_white_variety():
     grapes = GrapeStock("wine grapes", 10, "good", "white")
 
     assert grapes.variety == "white"
-
 
 def test_wine_grape_rose_variety():
     grapes = GrapeStock("wine grapes", 10, "good", "rose")
@@ -43,7 +41,6 @@ def test_table_grape_packets():
 
     # 1 kg = 2 packets
     assert grapes.estimated_packets() == 20
-
 
 def test_table_grape_value():
     grapes = GrapeStock("table grapes", 10, "good")
