@@ -1,20 +1,5 @@
-# Vineyard Inventory Management System (Python CLI Project)
-
-# Core Python libraries
-argparse        # CLI interface and command parsing
-sys             # System-specific parameters and functions
-os              # File and environment handling
-
-# Data handling and forecasting
-pandas          # DataFrames for inventory and forecasting
-numpy           # Numerical calculations for projections
-
-# CLI formatting
-rich            # Optional: for pretty CLI tables and dashboard summaries
-
-# Testing and linting
-pytest          # Unit testing framework
-pylint          # Code linting and style checks
-
-# Security (basic password hashing for user login)
-bcrypt          # Simple password hashing for authentication
+iniconfig==2.3.0
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1

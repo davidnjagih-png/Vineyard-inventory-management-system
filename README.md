@@ -1,3 +1,9 @@
+# SETUP
+Clone repository  
+in terminal run:
+   -pipenv install  
+   -pipenv shell
+
 # REQUIREMENTS
 
 # Users file
