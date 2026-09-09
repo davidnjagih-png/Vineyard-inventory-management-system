@@ -1,2 +1,0 @@
-ignore this file will be deleted by the scrum master after files are made in said folder 
-this file is here so as to help push the folder on git hub
