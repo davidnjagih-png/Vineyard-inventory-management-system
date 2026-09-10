@@ -1,9 +1,17 @@
+# SETUP
+
+```bash
+pipenv install
+pipenv shell
+```
+
 # REQUIREMENTS
 
 # Users file
 
 - create a login portal with authentication and user management features.
 - the portal should allow users to login based on their credentials and access different features based on their roles.
+
 - The portal should include the following functionalities:
   - user login and logout (based on hardcoded credentials)
   - user profile:
@@ -24,6 +32,7 @@
 - add a feature to calculate the estimated wine production (in litres) based on the quantity of grapes and the type of wine batch.
 - 1.5kg of wine grapes = 1 Litre of wine
 - 750ml of wine = 1 bottle of wine
+- 1 bottle of wine = 1200 kshs
 
 # grape stock management:
 
@@ -35,6 +44,7 @@
 - wine grapes should show the quantity of the types of wine grape varieties (i.e., red, white, and rose)
 - set a feature to estimate the total number of table grape packets from the available stock based on the average weight of a packet and the total quantity of table grapes in stock.
 - 1 kg of table grapes = 2 packets (average weight of a packet is 500g)
+- 1 packet of grapes = 350kshs
 
 # sales projections:
 
