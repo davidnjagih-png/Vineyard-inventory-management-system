@@ -11,6 +11,9 @@ def save_user_session(username):
 
 
 def get_user_session():
-    with open("user_session.json", "r") as file:
-        data = json.load(file)
-    return data or {}
+    try:
+        with open("user_session.json", "r") as file:
+            data = json.load(file)
+        return data or {}
+    except FileNotFoundError:
+        return {}
