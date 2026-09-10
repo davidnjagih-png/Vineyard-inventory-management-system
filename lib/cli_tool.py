@@ -3,35 +3,12 @@ import argparse
 from lib.auth import authenticated
 
 from .auth_cli import AuthCli
+from .wine_cli import WineCli
 
 
 @authenticated
 def demo_op(args):
     print(f"You will see this if you have loggin. Arg passed:{args.any}")
-
-
-@authenticated
-def handle_add_wine(args):
-    """Use args (type,vintage,quantity to add or update wines)"""
-    print(args)
-
-
-@authenticated
-def handle_view_wine(args):
-    """Use args to display wines, filter using vintage arg, or show all"""
-    print(args)
-
-
-@authenticated
-def handle_delete_wine(args):
-    vintage = input("PLease specify a vintage: ")
-    type = input("PLease specify a type [all, red, white, rose]: ")
-    verify = input(
-        f"Are you sure you want to delete {type} from {vintage} (Yes / No) ?"
-    )
-
-    if verify.lower() == "yes":
-        print("Deleted..")
 
 
 def main():
@@ -49,46 +26,13 @@ def main():
     auth_cli.logout()
 
     # Wine batch management
-    """
-    todo: Add new wine (@params: type[red,white,rose], vintage, quantity) , Edit wine, Delete, View wines. (Sales 'r',Owner 'r', Admin 'r,w' ) 
-    """
+    wine_cli = WineCli(subparser=subparser)
     # add wine
-    add_wine_parser = subparser.add_parser(
-        "add-wine", help="Add wine - type, vintage, quantity"
-    )
-    add_wine_parser.add_argument(
-        "type", choices=["red", "white", "rose"], help="Wine type"
-    )
-    add_wine_parser.add_argument("vintage", help="The wine vintage e.g 2001")
-    add_wine_parser.add_argument("quantity", type=int, help="Bottle quantity")
-    add_wine_parser.set_defaults(func=handle_add_wine)
-    # View Wines
-    view_wines_parser = subparser.add_parser(
-        "view-wines",
-        help="Display wines - '--all (default) --vintage (filter by vintage)",
-    )
-    view_wines_parser_group = view_wines_parser.add_argument_group(
-        "Display Filter", "Display all wines or filte by vintage"
-    ).add_mutually_exclusive_group()
-    view_wines_parser_group.add_argument(
-        "--all",
-        nargs="?",
-        const=True,
-        required=False,
-        help="Display all wines",
-    )
-    view_wines_parser_group.add_argument("--vintage", help="Filter by vintage")
-
-    view_wines_parser.add_argument(
-        "--type", choices=["red", "white", "rose"], help="Filter by type"
-    )
-
-    view_wines_parser.set_defaults(func=handle_view_wine)
-    # Delete Wine
-    delete_wine_parser = subparser.add_parser(
-        "delete-wine", help="Delete wines by category (vintage type quantity/all)"
-    )
-    delete_wine_parser.set_defaults(func=handle_delete_wine)
+    wine_cli.add_wine()
+    # view wine
+    wine_cli.view_wine()
+    # delete wine
+    wine_cli.delete_wine()
 
     # demo parser
     demo_parser = subparser.add_parser("demo", help="Testing authentication")
