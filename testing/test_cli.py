@@ -7,45 +7,19 @@ def run_cli_command(command):
     return subprocess.run(command, capture_output=True, text=True)
 
 
-# user cli tasks
-def test_login_user():
-    """test addin user from cli"""
-    result = run_cli_command(
-        ["python", "-m", "lib.cli_tool", "login", "Alice", "testpass"]
-    )
-
-    print("STDERR:", result.stderr)
-
-    assert "Welcome back Alice" in result.stdout
+def test_loggin_user():
+    result = run_cli_command(["python", "-m", "main", "login", "Alice", "testpass"])
+    assert "Logged in as Alice" in result.stdout
 
 
-def test_add_user():
-    """test addin user from cli"""
-    result = run_cli_command(
-        ["python", "-m", "lib.cli_tool", "add_user", "Alice", "testpass"]
-    )
-
-    print("STDERR:", result.stderr)
-
-    assert "User Alice added to users" in result.stdout
+def test_loggout_user():
+    result = run_cli_command(["python", "-m", "main", "logout"])
+    assert "Logged out." in result.stdout
 
 
-def test_add_user_when_unauthenticated_fails():
-    """test addin user from cli"""
-    logout = run_cli_command(["python", "-m", "lib.cli_tool", "logout"])
-
-    assert "Logged out" in logout.stdout
-
-    result = run_cli_command(
-        ["python", "-m", "lib.cli_tool", "add_user", "Alice", "testpass"]
-    )
-
-    print("STDERR:", result.stderr)
-
-    assert (
-        "Sorry, You can not access this information without an Admin account."
-        in result.stdout
-    )
+def test_cant_access_protected_if_logout():
+    result = run_cli_command(["python", "-m", "main", "logout"])
+    assert "You need to be loged in to perform this operation" in result.stdout
 
 
-# wine inventory
+# resolver
