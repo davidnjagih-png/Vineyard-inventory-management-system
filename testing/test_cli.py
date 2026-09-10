@@ -7,6 +7,18 @@ def run_cli_command(command):
     return subprocess.run(command, capture_output=True, text=True)
 
 
+# user cli tasks
+def test_login_user():
+    """test addin user from cli"""
+    result = run_cli_command(
+        ["python", "-m", "lib.cli_tool", "login", "Alice", "testpass"]
+    )
+
+    print("STDERR:", result.stderr)
+
+    assert "Welcome back Alice" in result.stdout
+
+
 def test_add_user():
     """test addin user from cli"""
     result = run_cli_command(
@@ -15,25 +27,25 @@ def test_add_user():
 
     print("STDERR:", result.stderr)
 
-    assert f"User Alice added to users" in result.stdout
+    assert "User Alice added to users" in result.stdout
 
 
-def test_update_password(tmp_path):
-    """test uppdate password from cli"""
-    script_path = tmp_path / "script.py"
-    script_content = f"""
-import sys
-sys.path.insert(0, '{os.getcwd().replace("\\\\", "/")}')
+def test_add_user_when_unauthenticated_fails():
+    """test addin user from cli"""
+    logout = run_cli_command(["python", "-m", "lib.cli_tool", "logout"])
 
-from lib.users import User
+    assert "Logged out" in logout.stdout
 
-user = User('Alice','testpass')
-user.password = 'testpass2'
-
-"""
-    script_path.write_text(script_content)
-
-    result = subprocess.run(
-        ["python", str(script_path)], capture_output=True, text=True
+    result = run_cli_command(
+        ["python", "-m", "lib.cli_tool", "add_user", "Alice", "testpass"]
     )
-    assert "Password for User Alice updated." in result.stdout
+
+    print("STDERR:", result.stderr)
+
+    assert (
+        "Sorry, You can not access this information without an Admin account."
+        in result.stdout
+    )
+
+
+# wine inventory
