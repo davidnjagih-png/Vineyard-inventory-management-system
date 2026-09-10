@@ -20,3 +20,6 @@ def test_loggout_user():
 def test_cant_access_protected_if_logout():
     result = run_cli_command(["python", "-m", "main", "logout"])
     assert "You need to be loged in to perform this operation" in result.stdout
+
+
+# resolver
