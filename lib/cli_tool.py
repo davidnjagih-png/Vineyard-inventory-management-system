@@ -16,9 +16,22 @@ def handle_add_wine(args):
     print(args)
 
 
+@authenticated
 def handle_view_wine(args):
     """Use args to display wines, filter using vintage arg, or show all"""
     print(args)
+
+
+@authenticated
+def handle_delete_wine(args):
+    vintage = input("PLease specify a vintage: ")
+    type = input("PLease specify a type [all, red, white, rose]: ")
+    verify = input(
+        f"Are you sure you want to delete {type} from {vintage} (Yes / No) ?"
+    )
+
+    if verify.lower() == "yes":
+        print("Deleted..")
 
 
 def main():
@@ -66,7 +79,16 @@ def main():
     )
     view_wines_parser_group.add_argument("--vintage", help="Filter by vintage")
 
+    view_wines_parser.add_argument(
+        "--type", choices=["red", "white", "rose"], help="Filter by type"
+    )
+
     view_wines_parser.set_defaults(func=handle_view_wine)
+    # Delete Wine
+    delete_wine_parser = subparser.add_parser(
+        "delete-wine", help="Delete wines by category (vintage type quantity/all)"
+    )
+    delete_wine_parser.set_defaults(func=handle_delete_wine)
 
     # demo parser
     demo_parser = subparser.add_parser("demo", help="Testing authentication")
