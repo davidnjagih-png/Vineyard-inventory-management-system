@@ -2,6 +2,10 @@ import pytest
 
 from lib.users import User
 
+@pytest.fixture(autouse=True)
+def reset_users():
+    User.all.clear()
+
 
 def test_create_user():
     """test user can be created"""
@@ -36,6 +40,6 @@ def test_change_password():
 def test_validate_user():
     """test user validation return validated user"""
     user = User("Agnes", "testpass")
-    assert User.validate_user(user.name, user.password) == True
+    assert User.validate_user(user.name, user.password) == user #changed from true to return actual object
     with pytest.raises(Exception):
         User.validate_user("", "")
