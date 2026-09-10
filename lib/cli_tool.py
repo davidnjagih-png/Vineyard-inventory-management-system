@@ -32,8 +32,6 @@ def main():
     )
     login_parser.set_defaults(func=handle_login)
 
-    #
-
     args = parser.parse_args()
 
     if hasattr(args, "func"):
