@@ -28,6 +28,7 @@ def test_generate_sales_report():
     grapes = SalesRecord(item="table grapes", quantity=15, price_per_unit=90)
 
     report = generate_sales_report([wine, grapes])
+    
 
     assert report["wine_sales"] == 20 * 700
     assert report["grape_sales"] == 15 * 90
