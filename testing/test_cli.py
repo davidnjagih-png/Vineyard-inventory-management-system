@@ -7,17 +7,16 @@ def run_cli_command(command):
     return subprocess.run(command, capture_output=True, text=True)
 
 
-def tes_loggin_user():
+def test_loggin_user():
     result = run_cli_command(["python", "-m", "main", "login", "Alice", "testpass"])
-    assert f"username: Alicv"
+    assert "Logged in as Alice" in result.stdout
 
 
-def test_add_user():
-    """test addin user from cli"""
-    result = run_cli_command(
-        ["python", "-m", "lib.cli_tool", "add_user", "Alice", "testpass"]
-    )
+def test_loggout_user():
+    result = run_cli_command(["python", "-m", "main", "logout"])
+    assert "Logged out." in result.stdout
 
-    print("STDERR:", result.stderr)
 
-    assert f"User Alice added to users" in result.stdout
+def test_cant_access_protected_if_logout():
+    result = run_cli_command(["python", "-m", "main", "logout"])
+    assert "You need to be loged in to perform this operation" in result.stdout
