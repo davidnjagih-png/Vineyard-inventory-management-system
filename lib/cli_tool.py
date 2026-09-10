@@ -1,7 +1,7 @@
 import argparse
 import getpass
 
-from lib.auth import authenticated
+from lib.auth import authenticated, save_user_session
 
 """
 Todo: persist state in file when login confirmed and create decorator to authenticate other processes if user id logged in.
@@ -16,6 +16,8 @@ def handle_login(args):
         password = getpass.getpass(prompt=f"Password for {args.username}:")
         print("password: ", password)
     # Todo: validate user exists in user json file before creating session
+    # login user by saving session
+    save_user_session(args.username)
 
 
 @authenticated

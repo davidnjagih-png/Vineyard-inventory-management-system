@@ -1,6 +1,6 @@
 from functools import wraps
 
-from .save_user_session import get_user_session
+from .user_session import get_user_session
 
 
 def authenticated(func):

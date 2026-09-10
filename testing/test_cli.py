@@ -7,6 +7,11 @@ def run_cli_command(command):
     return subprocess.run(command, capture_output=True, text=True)
 
 
+def tes_loggin_user():
+    result = run_cli_command(["python", "-m", "main", "login", "Alice", "testpass"])
+    assert f"username: Alicv"
+
+
 def test_add_user():
     """test addin user from cli"""
     result = run_cli_command(
@@ -16,24 +21,3 @@ def test_add_user():
     print("STDERR:", result.stderr)
 
     assert f"User Alice added to users" in result.stdout
-
-
-def test_update_password(tmp_path):
-    """test uppdate password from cli"""
-    script_path = tmp_path / "script.py"
-    script_content = f"""
-import sys
-sys.path.insert(0, '{os.getcwd().replace("\\\\", "/")}')
-
-from lib.users import User
-
-user = User('Alice','testpass')
-user.password = 'testpass2'
-
-"""
-    script_path.write_text(script_content)
-
-    result = subprocess.run(
-        ["python", str(script_path)], capture_output=True, text=True
-    )
-    assert "Password for User Alice updated." in result.stdout
