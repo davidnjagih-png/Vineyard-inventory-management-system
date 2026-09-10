@@ -1,7 +1,7 @@
 import argparse
 import getpass
 
-from lib.auth import authenticated, save_user_session
+from lib.auth import authenticated, delete_user_session, save_user_session
 
 """
 Todo: persist state in file when login confirmed and create decorator to authenticate other processes if user id logged in.
@@ -18,6 +18,12 @@ def handle_login(args):
     # Todo: validate user exists in user json file before creating session
     # login user by saving session
     save_user_session(args.username)
+
+
+@authenticated
+def handle_logout(args):
+    """Delete user session on user logout"""
+    delete_user_session()
 
 
 @authenticated
@@ -41,6 +47,10 @@ def main():
         "password", nargs="?", default=None, help="Enter the account password"
     )
     login_parser.set_defaults(func=handle_login)
+
+    # logout
+    logout_parser = subparser.add_parser("logout", help="Logout of the application")
+    logout_parser.set_defaults(func=handle_logout)
 
     # demo parser
     demo_parser = subparser.add_parser("demo", help="Testing authentication")

@@ -17,3 +17,9 @@ def get_user_session():
         return data or {}
     except FileNotFoundError:
         return {}
+
+
+def delete_user_session():
+    with open("user_session.json", "w") as file:
+        json.dump({}, file, indent=4)
+    print("Logged out.")
