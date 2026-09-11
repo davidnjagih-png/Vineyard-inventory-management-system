@@ -24,6 +24,8 @@ def main():
     auth_cli.login()
     # logout
     auth_cli.logout()
+    # create user
+    auth_cli.create_user()
 
     # Wine batch management
     wine_cli = WineCli(subparser=subparser)
