@@ -1,6 +1,12 @@
 import getpass
 
-from lib.auth import authenticated, delete_user_session, save_user_session, create_user
+from lib.auth import (
+    authenticated,
+    delete_user_session,
+    save_user_session,
+    create_user,
+    get_user,
+)
 from lib.users import Admin, Manager, Owner, SalesTeam
 
 """
@@ -52,9 +58,17 @@ class AuthCli:
         if args.password is None:
             password = getpass.getpass(prompt=f"Password for {args.username}:")
             print("password: ", password)
+        else:
+            password = args.password
         # Todo: validate user exists in user json file before creating session
         # login user by saving session
-        save_user_session(Admin(username=args.username, password=args.password))
+        user = get_user(args.username, password=password)
+        if user:
+            print(f"Welcome back {user}")
+            save_user_session(user)
+
+        else:
+            print("That user does not exist bud.")
 
     @staticmethod
     @authenticated

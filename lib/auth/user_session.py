@@ -2,10 +2,9 @@ import json
 
 
 def save_user_session(user):
-    current_user = {"username": user.username, "role": user.role}
     with open("user_session.json", "w") as file:
-        json.dump(current_user, file, indent=4)
-    print(f"Logged in as {user.username}")
+        json.dump(user, file, indent=4)
+    print(f"Logged in as {user['username']}")
 
 
 def get_user_session():
