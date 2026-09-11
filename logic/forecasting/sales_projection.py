@@ -1,24 +1,30 @@
 class SalesProjection:
     """
-    Generates sales projections from SalesRecord data.
+    Projection and report logic
+    based on SalesRecord objects.
     """
 
     @staticmethod
-    def total_projection(records):
+    def total_revenue_projection(records):
+
         return sum(
             record.calculate_projection()
             for record in records
         )
 
     @staticmethod
-    def projection_by_category(records):
+    def revenue_by_category(records):
+
         projections = {}
 
         for record in records:
-            category = record.item_type
 
-            if category not in projections:
-                projections[category] = 0
+            category = record.category
+
+            projections.setdefault(
+                category,
+                0
+            )
 
             projections[category] += (
                 record.calculate_projection()
@@ -27,12 +33,33 @@ class SalesProjection:
         return projections
 
     @staticmethod
-    def generate_report(records):
+    def top_selling_category(records):
 
-        return {
-            "total_sales_projection":
-                SalesProjection.total_projection(records),
+        projections = (
+            SalesProjection.revenue_by_category(
+                records
+            )
+        )
 
-            "category_breakdown":
-                SalesProjection.projection_by_category(records)
-        }
+        return max(
+            projections,
+            key=projections.get
+        )
+
+    @staticmethod
+    def wine_projection(records):
+
+        return sum(
+            record.calculate_projection()
+            for record in records
+            if record.item_type == "wine"
+        )
+
+    @staticmethod
+    def grape_projection(records):
+
+        return sum(
+            record.calculate_projection()
+            for record in records
+            if record.item_type == "table_grapes"
+        )
