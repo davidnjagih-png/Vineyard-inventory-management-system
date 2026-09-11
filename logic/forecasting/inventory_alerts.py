@@ -1,12 +1,12 @@
 class InventoryAlerts:
     """
-    Inventory monitoring and low stock warnings.
+    Handles low stock monitoring.
     """
 
     LOW_STOCK_THRESHOLD = 50
 
     @classmethod
-    def check_wine_batches(
+    def wine_stock_alerts(
         cls,
         wine_batches
     ):
@@ -18,27 +18,27 @@ class InventoryAlerts:
 
                 alerts.append(
                     f"Low wine stock: "
-                    f"{batch.record_type.title()} "
-                    f"({batch.quantity} bottles)"
+                    f"{batch.record_type} "
+                    f"({batch.quantity} remaining)"
                 )
 
         return alerts
 
     @classmethod
-    def check_grape_stock(
+    def grape_stock_alerts(
         cls,
-        grape_stocks
+        grape_stock
     ):
         alerts = []
 
-        for stock in grape_stocks:
+        for stock in grape_stock:
 
             if stock.quantity < cls.LOW_STOCK_THRESHOLD:
 
                 alerts.append(
                     f"Low grape stock: "
-                    f"{stock.category.title()} "
-                    f"({stock.quantity} kg)"
+                    f"{stock.category} "
+                    f"({stock.quantity} kg remaining)"
                 )
 
         return alerts
@@ -47,13 +47,14 @@ class InventoryAlerts:
     def generate_alerts(
         cls,
         wine_batches,
-        grape_stocks
+        grape_stock
     ):
         return (
-            cls.check_wine_batches(
+            cls.wine_stock_alerts(
                 wine_batches
-            ) +
-            cls.check_grape_stock(
-                grape_stocks
+            )
+            +
+            cls.grape_stock_alerts(
+                grape_stock
             )
         )

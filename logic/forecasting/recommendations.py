@@ -5,71 +5,64 @@ from logic.forecasting.sales_projection import (
 
 class Recommendations:
     """
-    Inventory and sales recommendations.
+    Provides business recommendations.
     """
+
+    @staticmethod
+    def sales_recommendation(records):
+
+        top_product = (
+            SalesProjection.top_selling_product(
+                records
+            )
+        )
+
+        if top_product:
+
+            return (
+                f"Focus marketing efforts on "
+                f"{top_product}."
+            )
+
+        return (
+            "No sales data available."
+        )
 
     @staticmethod
     def inventory_recommendation(
         current_stock,
         projected_sales
     ):
-        """
-        Compare inventory against projected demand.
-        """
 
         if current_stock <= projected_sales:
+
             return (
                 "Increase production or restock inventory."
             )
 
         return (
-            "Current inventory levels are sufficient."
-        )
-
-    @staticmethod
-    def sales_recommendation(records):
-        """
-        Recommend where to focus sales efforts.
-        """
-
-        top_category = (
-            SalesProjection.top_selling_category(
-                records
-            )
-        )
-
-        if not top_category:
-            return (
-                "Not enough sales data available."
-            )
-
-        return (
-            f"Focus marketing efforts on "
-            f"{top_category.title()} products."
+            "Inventory levels are sufficient."
         )
 
     @staticmethod
     def seasonal_recommendation(
         season
     ):
-        """
-        Basic seasonal recommendations.
-        """
 
         season = season.lower()
 
-        recommendations = {
-            "peak":
-            "Increase stock levels before peak demand.",
+        if season == "peak":
 
-            "normal":
-            "Maintain regular inventory levels.",
+            return (
+                "Increase inventory before peak demand."
+            )
 
-            "low":
-            "Reduce production to avoid excess stock."
-        }
+        if season == "low":
 
-        return recommendations.get(
-            season,
-            "Season information unavailable."
+            return (
+                "Reduce production to prevent surplus stock."
+            )
+
+        return (
+            "Maintain current stock levels."
         )

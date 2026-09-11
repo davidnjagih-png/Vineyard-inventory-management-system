@@ -1,12 +1,13 @@
 class SalesProjection:
     """
-    Analyze sales records and generate projections.
+    Handles sales projections and reporting
+    using SalesRecord objects.
     """
 
     @staticmethod
-    def total_revenue_projection(records):
+    def total_revenue(records):
         """
-        Calculate projected revenue from all sales records.
+        Calculate total projected revenue.
         """
         return sum(
             record.calculate_projection()
@@ -14,96 +15,95 @@ class SalesProjection:
         )
 
     @staticmethod
-    def wine_revenue_projection(records):
+    def wine_revenue(records):
         """
-        Calculate projected revenue from wine only.
-        """
-        return sum(
-            record.calculate_projection()
-            for record in records
-            if record.item_type.lower() == "wine"
-        )
-
-    @staticmethod
-    def grape_revenue_projection(records):
-        """
-        Calculate projected revenue from table grapes only.
+        Calculate wine revenue.
         """
         return sum(
             record.calculate_projection()
             for record in records
-            if record.item_type.lower() == "table_grapes"
+            if "wine" in record.item.lower()
         )
 
     @staticmethod
-    def revenue_by_category(records):
+    def grape_revenue(records):
         """
-        Revenue grouped by category.
-        Example:
-        red, white, rose, table_grapes
+        Calculate table grape revenue.
         """
-        category_totals = {}
+        return sum(
+            record.calculate_projection()
+            for record in records
+            if "grape" in record.item.lower()
+        )
+
+    @staticmethod
+    def revenue_by_product(records):
+        """
+        Revenue grouped by product.
+        """
+
+        products = {}
 
         for record in records:
 
-            category = record.category.lower()
+            if record.item not in products:
+                products[record.item] = 0
 
-            if category not in category_totals:
-                category_totals[category] = 0
-
-            category_totals[category] += (
+            products[record.item] += (
                 record.calculate_projection()
             )
 
-        return category_totals
+        return products
 
     @staticmethod
-    def top_selling_category(records):
+    def top_selling_product(records):
         """
-        Returns category with highest projected revenue.
+        Returns highest earning product.
         """
 
-        category_totals = (
-            SalesProjection.revenue_by_category(records)
+        revenue = (
+            SalesProjection.revenue_by_product(
+                records
+            )
         )
 
-        if not category_totals:
+        if not revenue:
             return None
 
         return max(
-            category_totals,
-            key=category_totals.get
+            revenue,
+            key=revenue.get
         )
 
     @staticmethod
     def generate_report(records):
         """
-        Generate complete sales report.
+        Generates complete sales report.
         """
 
         return {
             "total_revenue":
-            SalesProjection.total_revenue_projection(
-                records
-            ),
+                SalesProjection.total_revenue(
+                    records
+                ),
 
             "wine_revenue":
-            SalesProjection.wine_revenue_projection(
-                records
-            ),
+                SalesProjection.wine_revenue(
+                    records
+                ),
 
             "grape_revenue":
-            SalesProjection.grape_revenue_projection(
-                records
-            ),
+                SalesProjection.grape_revenue(
+                    records
+                ),
 
-            "revenue_by_category":
-            SalesProjection.revenue_by_category(
-                records
-            ),
+            "revenue_by_product":
+                SalesProjection.revenue_by_product(
+                    records
+                ),
 
-            "top_selling_category":
-            SalesProjection.top_selling_category(
-                records
-            )
+            "top_selling_product":
+                SalesProjection.top_selling_product(
+                    records
+                )
         }

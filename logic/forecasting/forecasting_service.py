@@ -13,15 +13,13 @@ from logic.forecasting.recommendations import (
 
 class ForecastingService:
     """
-    Main forecasting entry point.
+    Main forecasting service.
     Used by CLI and main.py
     """
 
     @staticmethod
     def sales_report(records):
-        """
-        Generate sales report.
-        """
+
         return (
             SalesProjection.generate_report(
                 records
@@ -31,25 +29,21 @@ class ForecastingService:
     @staticmethod
     def inventory_report(
         wine_batches,
-        grape_stocks
+        grape_stock
     ):
-        """
-        Generate inventory alert report.
-        """
+
         return (
             InventoryAlerts.generate_alerts(
                 wine_batches,
-                grape_stocks
+                grape_stock
             )
         )
 
     @staticmethod
-    def recommendation_report(
+    def sales_recommendation(
         records
     ):
-        """
-        Generate sales recommendation report.
-        """
+
         return (
             Recommendations.sales_recommendation(
                 records
@@ -57,16 +51,25 @@ class ForecastingService:
         )
 
     @staticmethod
-    def stock_recommendation(
+    def inventory_recommendation(
         current_stock,
         projected_sales
     ):
-        """
-        Generate inventory recommendation.
-        """
+
         return (
             Recommendations.inventory_recommendation(
                 current_stock,
                 projected_sales
+            )
+        )
+
+    @staticmethod
+    def seasonal_recommendation(
+        season
+    ):
+
+        return (
+            Recommendations.seasonal_recommendation(
+                season
             )
         )
