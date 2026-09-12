@@ -10,7 +10,7 @@ class Inventory:
         for batch in self._wine_batches:
             if batch.batch_id == batch_id:
                 raise ValueError("Batch Id already exists")
-
+                
         batch = WineBatch(
             batch_id,
             wine_type,
@@ -65,3 +65,4 @@ class Inventory:
                 return
         
         raise ValueError("grape stock not found.")
+        

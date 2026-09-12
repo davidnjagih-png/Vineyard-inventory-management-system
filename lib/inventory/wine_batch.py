@@ -25,6 +25,7 @@ class WineBatch:
         self._vintage = vintage
         self._quantity = quantity
         
+
     @property
     def batch_id(self):
         return self._batch_id
