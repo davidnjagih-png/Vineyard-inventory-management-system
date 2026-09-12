@@ -2,10 +2,10 @@ import getpass
 
 from lib.auth import (
     authenticated,
-    delete_user_session,
-    save_user_session,
     create_user,
+    delete_user_session,
     get_user,
+    save_user_session,
 )
 from lib.users import Admin, Manager, Owner, SalesTeam
 
@@ -31,7 +31,6 @@ class AuthCli:
 
     # logout
     def logout(self):
-
         logout_parser = self.subparser.add_parser(
             "logout", help="Logout of the application"
         )
@@ -71,13 +70,13 @@ class AuthCli:
             print("That user does not exist bud.")
 
     @staticmethod
-    @authenticated
+    @authenticated(role=None)
     def handle_logout(args):
         """Delete user session on user logout"""
         delete_user_session()
 
     @staticmethod
-    @authenticated(role="admin")
+    @authenticated(role=["manager", "admin"])
     def handle_create_user(args):
         """Create new user if user is admin"""
         if args.role == "admin":
