@@ -7,7 +7,7 @@ from .sales_cli import SalesCli
 from .wine_cli import WineCli
 
 
-@authenticated
+@authenticated(role=["sales_team", "manager"])
 def demo_op(args):
     print(f"You will see this if you have loggin. Arg passed:{args.any}")
 
