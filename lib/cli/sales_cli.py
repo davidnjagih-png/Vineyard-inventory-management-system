@@ -51,6 +51,7 @@ class SalesCli:
         create_sales(new_sale)
 
     @staticmethod
+    @authenticated(role=["manager", "sales_team", "owner"])
     def handle_sales_report(args):
         """Display sales report"""
         records = SalesCli.get_sales_records()
@@ -63,6 +64,7 @@ class SalesCli:
             print("Nothing in the sales records")
 
     @staticmethod
+    @authenticated(role=["manager", "sales_team", "owner"])
     def handle_recommendation(args):
         """Generate recommendation message based on sales record data"""
         if args.seasonal:
