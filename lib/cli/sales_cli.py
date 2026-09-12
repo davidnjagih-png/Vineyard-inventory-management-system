@@ -33,6 +33,12 @@ class SalesCli:
         rec_parser = self.subparser.add_parser(
             "sales-rec", help="Get a recommendation based on sales data."
         )
+        rec_parser.add_argument(
+            "--seasonal",
+            "--s",
+            choices=["peak", "low"],
+            help="Get seasonal recommendation",
+        )
         rec_parser.set_defaults(func=SalesCli.handle_recommendation)
 
     @staticmethod
@@ -58,6 +64,10 @@ class SalesCli:
 
     @staticmethod
     def handle_recommendation(args):
+        """Generate recommendation message based on sales record data"""
+        if args.seasonal:
+            print(ForecastingService.seasonal_recommendation(args.seasonal))
+
         records = SalesCli.get_sales_records()
         if records:
             print(ForecastingService.sales_recommendation(records=records))
@@ -66,6 +76,7 @@ class SalesCli:
 
     @staticmethod
     def get_sales_records():
+        """retune list of sales record instances"""
         records = get_all_sales()
         sales = [
             SalesRecord(
