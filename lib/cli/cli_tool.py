@@ -4,6 +4,7 @@ from lib.auth import authenticated
 
 from .auth_cli import AuthCli
 from .wine_cli import WineCli
+from .sales_cli import SalesCli
 
 
 @authenticated
@@ -35,6 +36,11 @@ def main():
     wine_cli.view_wine()
     # delete wine
     wine_cli.delete_wine()
+
+    # sales reports
+    sales_cli = SalesCli(subparser=subparser)
+    # add sale
+    sales_cli.add_sale()
 
     # demo parser
     demo_parser = subparser.add_parser("demo", help="Testing authentication")
