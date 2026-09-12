@@ -1,5 +1,6 @@
 import pytest
-from inventory import Inventory
+from lib.inventory import Inventory
+
 
 def test_add_wine_batch():
     inventory = Inventory()
@@ -9,6 +10,7 @@ def test_add_wine_batch():
     batches = inventory.get_wine_batches()
 
     assert len(batches) == 1
+
 
 def test_wine_batch_has_correct_details():
     inventory = Inventory()
@@ -22,14 +24,18 @@ def test_wine_batch_has_correct_details():
     assert batch.vintage == 2024
     assert batch.quantity == 150
 
+
 def test_add_grape_stock():
     pass
+
 
 def test_remove_grape_stock():
     pass
 
+
 def test_cannot_remove_more_grapes_than_available():
     pass
+
 
 def test_add_wine_batch_invalid_types():
     inventory = Inventory()

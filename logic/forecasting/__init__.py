@@ -1,9 +1,1 @@
-"""
-Forecasting Package
-
-Handles:
-- Sales projections
-- Inventory alerts
-- Inventory recommendations
-- Sales analysis and reports
-"""
+from .forecasting_service import ForecastingService

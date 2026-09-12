@@ -3,6 +3,7 @@ import argparse
 from lib.auth import authenticated
 
 from .auth_cli import AuthCli
+from .sales_cli import SalesCli
 from .wine_cli import WineCli
 
 
@@ -36,6 +37,15 @@ def main():
     # delete wine
     wine_cli.delete_wine()
 
+    # sales reports
+    sales_cli = SalesCli(subparser=subparser)
+    # add sale
+    sales_cli.add_sale()
+    # sales report
+    sales_cli.sales_report()
+    # sales recomendation
+    sales_cli.sales_recomendation()
+
     # demo parser
     demo_parser = subparser.add_parser("demo", help="Testing authentication")
     demo_parser.add_argument("--any", help="testing any argument")
@@ -47,5 +57,3 @@ def main():
         args.func(args)
     else:
         parser.print_help()
-
-    print(args)

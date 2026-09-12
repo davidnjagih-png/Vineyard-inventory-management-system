@@ -21,11 +21,9 @@ def get_user(username, password):
         with open("users_db.json", "r") as file:
             data = json.load(file)
         return next(
-            (
-                user
-                for user in data
-                if user["username"] == username and user["password"] == password
-            )
+            user
+            for user in data
+            if user["username"] == username and user["password"] == password
         )
     else:
         return None
