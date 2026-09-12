@@ -1,6 +1,7 @@
-from lib.sales_record.pricing import price_wine, price_grapes
+from lib.sales_record.pricing import price_grapes, price_wine
 from lib.sales_record.projections import calculate_projection
 from lib.sales_record.reporting import generate_sales_report
+
 
 class SalesRecord:
     def __init__(self, item, quantity, price_per_unit):
