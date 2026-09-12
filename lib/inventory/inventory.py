@@ -65,4 +65,18 @@ class Inventory:
                 return
         
         raise ValueError("grape stock not found.")
+    
+    def link_grapes_to_batch(self, batch_id, variety, quantity):
+        batch = self.get_wine_batch(batch_id)
+
+        for stock in self._grape_stock:
+            if (
+                stock.grape_type == "wine"
+                and stock.variety == variety
+                and stock.quantity >= quantity
+            ):
+                batch.link_grapes(quantity)
+                return
         
+        raise ValueError("Matching wine grape stock not found")
+

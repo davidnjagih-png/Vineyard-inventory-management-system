@@ -144,3 +144,27 @@ def test_invalid_wine_grape_variety():
     with pytest.raises(ValueError):
         inventory.add_grape_stock("wine", 500, "good", "green")
 
+def test_link_wine_grapes_to_wine_batch():
+    inventory = Inventory()
+
+    inventory.add_wine_batch("B001", "red", 2024, 150)
+    inventory.add_grape_stock("wine", 500, "good", "red")
+
+    inventory.link_grapes_to_batch("B001", "red", 500)
+
+    batch = inventory.get_wine_batch("B001")
+
+    assert batch.grape_quantity == 500
+    assert batch.wine_type == "red"
+
+def test_estimated_wine_production():
+    inventory = Inventory()
+
+    inventory.add_wine_batch("B001", "red", 2024, 150)
+    inventory.add_grape_stock("wine", 150, "good", "red")
+
+    inventory.link_grapes_to_batch("B001", "red", 150)
+
+    batch = inventory.get_wine_batch("B001")
+
+    assert batch.estimated_litres() == 100
