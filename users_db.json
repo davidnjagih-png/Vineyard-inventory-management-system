@@ -13,10 +13,5 @@
         "username": "Cony",
         "role": "sales_team",
         "password": "testpass"
-    },
-    {
-        "username": "Jane",
-        "role": "owner",
-        "password": "testpass"
     }
 ]
