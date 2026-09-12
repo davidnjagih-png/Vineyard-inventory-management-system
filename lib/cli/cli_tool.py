@@ -43,6 +43,8 @@ def main():
     sales_cli.add_sale()
     # sales report
     sales_cli.sales_report()
+    # sales recomendation
+    sales_cli.sales_recomendation()
 
     # demo parser
     demo_parser = subparser.add_parser("demo", help="Testing authentication")

@@ -29,6 +29,12 @@ class SalesCli:
         )
         report_parser.set_defaults(func=SalesCli.handle_sales_report)
 
+    def sales_recomendation(self):
+        rec_parser = self.subparser.add_parser(
+            "sales-rec", help="Get a recommendation based on sales data."
+        )
+        rec_parser.set_defaults(func=SalesCli.handle_recommendation)
+
     @staticmethod
     @authenticated(role="sales_team")
     def handle_add_sale(args):
@@ -41,10 +47,26 @@ class SalesCli:
     @staticmethod
     def handle_sales_report(args):
         """Display sales report"""
-        records = get_all_sales()
-        if not records:
+        records = SalesCli.get_sales_records()
+        if records:
+            report = ForecastingService.sales_report(records=records)
+            message = f"""\n+------------------------------------------\n| Total Revenue: {report["total_revenue"]}\n+------------------------------------------\n| Wine Revenue: {report["wine_revenue"]}\n+------------------------------------------\n| Grape Revenue: {report["grape_revenue"]}\n+------------------------------------------\n| Top selling: {report["top_selling_product"]}
+            """
+            print(message)
+        else:
+            print("Nothing in the sales records")
+
+    @staticmethod
+    def handle_recommendation(args):
+        records = SalesCli.get_sales_records()
+        if records:
+            print(ForecastingService.sales_recommendation(records=records))
+        else:
             print("Nothing in the sales records.")
-            return
+
+    @staticmethod
+    def get_sales_records():
+        records = get_all_sales()
         sales = [
             SalesRecord(
                 item=record["item"],
@@ -53,8 +75,4 @@ class SalesCli:
             )
             for record in records
         ]
-
-        report = ForecastingService.sales_report(sales)
-        message = f"""\n+------------------------------------------\n| Total Revenue: {report["total_revenue"]}\n+------------------------------------------\n| Wine Revenue: {report["wine_revenue"]}\n+------------------------------------------\n| Grape Revenue: {report["grape_revenue"]}\n+------------------------------------------\n| Top selling: {report["top_selling_product"]}
-        """
-        print(message)
+        return sales
