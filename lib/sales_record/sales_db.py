@@ -18,6 +18,7 @@ def create_sales(sale):
 
     with open("sales_db.json", "w") as file:
         json.dump(data, file, indent=4)
+        print("sale recorded")
 
 
 def get_all_sales():

@@ -1,4 +1,5 @@
 from lib.auth import authenticated
+from lib.sales_record import SalesRecord, create_sales
 
 
 class SalesCli:
@@ -24,3 +25,7 @@ class SalesCli:
     @authenticated(role="sales_team")
     def handle_add_sale(args):
         """Add sale to record"""
+        new_sale = SalesRecord(
+            item=args.item, quantity=args.quantity, price_per_unit=args.price
+        )
+        create_sales(new_sale)
