@@ -1,4 +1,5 @@
 from lib.auth import authenticated
+from lib.inventory import Inventory
 
 
 class WineCli:
@@ -38,10 +39,12 @@ class WineCli:
             required=False,
             help="Display all wines",
         )
-        view_wines_parser_group.add_argument("--vintage", help="Filter by vintage")
+        view_wines_parser_group.add_argument(
+            "--vintage", "--v", help="Filter by vintage"
+        )
 
         view_wines_parser.add_argument(
-            "--type", choices=["red", "white", "rose"], help="Filter by type"
+            "--type", "--t", choices=["red", "white", "rose"], help="Filter by type"
         )
 
         view_wines_parser.set_defaults(func=WineCli.handle_view_wine)
@@ -54,25 +57,98 @@ class WineCli:
         delete_wine_parser.set_defaults(func=WineCli.handle_delete_wine)
 
     @staticmethod
-    @authenticated
+    @authenticated(role="manager")
     def handle_add_wine(args):
         """Use args (type,vintage,quantity to add or update wines)"""
-        print(args)
+        inventory = Inventory()
+        try:
+            inventory.add_wine_batch(
+                batch_id=args.type + args.vintage,
+                wine_type=args.type,
+                vintage=args.vintage,
+                quantity=args.quantity,
+            )
+        except ValueError as e:
+            print(e)
 
     @staticmethod
-    @authenticated
+    @authenticated(role=["manager", "sales_team"])
     def handle_view_wine(args):
         """Use args to display wines, filter using vintage arg, or show all"""
-        print(args)
+        inventory = Inventory()
+        if args.vintage and args.type:
+            wine = next(
+                (
+                    wine
+                    for wine in inventory._wine_batches
+                    if wine.batch_id == args.type + args.vintage
+                ),
+                None,
+            )
+            if wine:
+                print(
+                    f"Inventory details for the {wine.vintage} vintage {wine.wine_type}: Quantity: {wine.quantity}"
+                )
+            else:
+                print(f"We could not find the {args.vintage} vintage {args.type}")
+            return
+        elif args.vintage:
+            wines = [
+                wine for wine in inventory._wine_batches if wine.vintage == args.vintage
+            ]
+            if wines:
+                for wine in wines:
+                    print(
+                        f"The {wine.vintage} vintage {wine.wine_type} has {wine.quantity} bottles."
+                    )
+            else:
+                print(f"The {args.vintage} vintage is unavailable.")
+            return
+        elif args.type:
+            wines = [
+                wine for wine in inventory._wine_batches if wine.wine_type == args.type
+            ]
+            if wines:
+                for wine in wines:
+                    print(
+                        f"The {wine.wine_type} {wine.vintage} vintage has {wine.quantity} bottles."
+                    )
+            else:
+                print(f"There are no {args.type} wines available.")
+            return
+        else:
+            wines = [wine for wine in inventory._wine_batches]
+            if wines:
+                for wine in wines:
+                    print(
+                        f"The {wine.wine_type} {wine.vintage} vintage has {wine.quantity} bottles."
+                    )
+            else:
+                print("There are no wines available.")
+            return
 
     @staticmethod
-    @authenticated
+    @authenticated(role="manager")
     def handle_delete_wine(args):
         vintage = input("PLease specify a vintage: ")
-        type = input("PLease specify a type [all, red, white, rose]: ")
+        type = input("Please specify a type [all, red, white, rose]: ")
         verify = input(
             f"Are you sure you want to delete {type} from {vintage} (Yes / No) ?"
         )
-
-        if verify.lower() == "yes":
-            print("Deleted..")
+        inventory = Inventory()
+        try:
+            if verify.lower() == "yes":
+                if type == "all":
+                    wines = [
+                        wine
+                        for wine in inventory._wine_batches
+                        if wine.vintage == vintage
+                    ]
+                    for item in wines:
+                        inventory.delete_wine_batch(item.batch_id)
+                else:
+                    inventory.delete_wine_batch(type + vintage)
+            else:
+                print("Operation discarded")
+        except ValueError as e:
+            print(e)

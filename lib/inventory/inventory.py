@@ -1,69 +1,89 @@
-from .wine_batch import WineBatch
 from .grape_stock import GrapeStock
+from .inventory_db import add_inventory_item, delete_inventory_item, get_inventory_items
+from .wine_batch import WineBatch
+
 
 class Inventory:
     def __init__(self):
-        self._wine_batches = []
-        self._grape_stock = []
-    
+        self._wine_batches = Inventory.get_wine_batches()
+        self._grape_stock = Inventory.get_grapes()
+
     def add_wine_batch(self, batch_id, wine_type, vintage, quantity):
         for batch in self._wine_batches:
             if batch.batch_id == batch_id:
                 raise ValueError("Batch Id already exists")
-                
-        batch = WineBatch(
-            batch_id,
-            wine_type,
-            vintage,
-            quantity
-        )
 
-        
-        self._wine_batches.append(batch)
-    
-    def get_wine_batches(self):
-        return self._wine_batches
-    
+        batch = WineBatch(batch_id, wine_type, vintage, quantity)
+
+        add_inventory_item(batch)
+
+    @staticmethod
+    def get_wine_batches():
+        data = get_inventory_items()
+        batches = [
+            WineBatch(
+                batch_id=wine["batch_id"],
+                wine_type=wine["wine_type"],
+                vintage=wine["vintage"],
+                quantity=wine["quantity"],
+            )
+            for wine in data["wine"]
+        ]
+        return batches
+
+    @staticmethod
+    def get_grapes():
+        data = get_inventory_items()
+        stock = [
+            GrapeStock(
+                grape_type=grape["grape_type"],
+                variety=grape["variety"],
+                quantity=grape["quantity"],
+            )
+            for grape in data["grapes"]
+        ]
+        return stock
+
     def get_wine_batch(self, batch_id):
         for batch in self._wine_batches:
             if batch.batch_id == batch_id:
                 return batch
-        
+
         raise ValueError("wine batch not found.")
-    
+
     def edit_wine_batch(self, batch_id, wine_type, vintage, quantity):
         for batch in self._wine_batches:
             if batch.batch_id == batch_id:
                 batch.update_details(wine_type, vintage, quantity)
                 return
-        
+
         raise ValueError("Batch not found.")
-    
+
     def delete_wine_batch(self, batch_id):
         for batch in self._wine_batches:
             if batch.batch_id == batch_id:
-                self._wine_batches.remove(batch)
+                delete_inventory_item(batch)
                 return
-        
+
         raise ValueError("wine batch not found.")
-    
-    def add_grape_stock(self, grape_type, quantity, quality=None, variety=None):
-        stock = GrapeStock(grape_type, quantity, quality, variety)
-        self._grape_stock.append(stock)
+
+    def add_grape_stock(self, grape_type, quantity, variety=None):
+        stock = GrapeStock(grape_type, quantity, variety)
+        add_inventory_item(stock)
 
     def get_grape_stock(self, grape_type):
         for stock in self._grape_stock:
             if stock.grape_type == grape_type:
                 return stock
-        
+
         raise ValueError("Grape stock not found.")
-    
-    def remove_grape_stock(self, grape_type, quantity):
+
+    def remove_grape_stock(self, item):
         for stock in self._grape_stock:
-            if stock.grape_type == grape_type:
-                stock.remove_quantity(quantity)
+            if stock.grape_type == item.grape_type and stock.variety == item.variety:
+                delete_inventory_item(stock)
                 return
-        
+
         raise ValueError("grape stock not found.")
     
     def link_grapes_to_batch(self, batch_id, variety, quantity):

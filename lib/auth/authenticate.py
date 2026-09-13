@@ -9,8 +9,6 @@ def authenticated(role=None):
     def authenticator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            print("auth called with role: ", role)
-
             is_logged_in = get_user_session()
 
             if not is_logged_in:
