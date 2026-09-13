@@ -13,6 +13,7 @@ class WineBatch:
         self._wine_type = wine_type
         self._vintage = vintage
         self._quantity = quantity
+        self._grape_quantity = 0
     
     def update_details(self, wine_type, vintage, quantity):
         if wine_type not in self.valid_types:
@@ -25,6 +26,15 @@ class WineBatch:
         self._vintage = vintage
         self._quantity = quantity
         
+
+    def link_grapes(self, quantity):
+        self._grape_quantity = quantity
+    
+    def estimated_litres(self):
+        return self._grape_quantity / 1.5
+
+
+
 
     @property
     def batch_id(self):
@@ -46,3 +56,9 @@ class WineBatch:
     @property
     def quantity(self):
         return self._quantity
+    
+    @property
+    def grape_quantity(self):
+        return self._grape_quantity
+    
+    
