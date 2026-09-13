@@ -78,10 +78,10 @@ class Inventory:
 
         raise ValueError("Grape stock not found.")
 
-    def remove_grape_stock(self, grape_type, quantity):
+    def remove_grape_stock(self, item):
         for stock in self._grape_stock:
-            if stock.grape_type == grape_type:
-                stock.remove_quantity(quantity)
+            if stock.grape_type == item.grape_type and stock.variety == item.variety:
+                delete_inventory_item(stock)
                 return
 
         raise ValueError("grape stock not found.")

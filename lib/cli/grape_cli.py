@@ -143,27 +143,21 @@ class GrapeCli:
     @staticmethod
     @authenticated(role="manager")
     def handle_delete_grape(args):
-        variety = input("PLease specify a variety: ")
-        type = input("Please specify a type [all, red, white, rose]: ")
+        variety = input("PLease specify a variety [red, white, rose]: ")
+        type = input("Please specify a type [all,wine,table]: ")
         verify = input(
             f"Are you sure you want to delete {type} from {variety} (Yes / No) ?"
         )
         inventory = Inventory()
         try:
             if verify.lower() == "yes":
-                if type == "all":
-                    grapes = [
-                        grape
-                        for grape in inventory._grape_batches
-                        if grape.variety == variety
-                    ]
-                    for item in grapes:
-                        inventory.delete_grape_batch(item.batch_id)
-                else:
-                    inventory.remove_grape_stock(
-                        type,
-                    )
-            else:
-                print("Operation discarded")
+                grapes = [
+                    grape
+                    for grape in inventory._grape_stock
+                    if grape.type == type and grape.variety == variety
+                ]
+                for item in grapes:
+                    inventory.remove_grape_stock(item)
+
         except ValueError as e:
             print(e)
