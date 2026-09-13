@@ -39,10 +39,12 @@ class WineCli:
             required=False,
             help="Display all wines",
         )
-        view_wines_parser_group.add_argument("--vintage", help="Filter by vintage")
+        view_wines_parser_group.add_argument(
+            "--vintage", "--v", help="Filter by vintage"
+        )
 
         view_wines_parser.add_argument(
-            "--type", choices=["red", "white", "rose"], help="Filter by type"
+            "--type", "--t", choices=["red", "white", "rose"], help="Filter by type"
         )
 
         view_wines_parser.set_defaults(func=WineCli.handle_view_wine)
@@ -70,10 +72,38 @@ class WineCli:
             print(e)
 
     @staticmethod
-    @authenticated
+    @authenticated(role=["manager", "sales_team"])
     def handle_view_wine(args):
         """Use args to display wines, filter using vintage arg, or show all"""
-        print(args)
+        inventory = Inventory()
+        if args.vintage and args.type:
+            wine = next(
+                (
+                    wine
+                    for wine in inventory._wine_batches
+                    if wine.batch_id == args.type + args.vintage
+                ),
+                None,
+            )
+            if wine:
+                print(
+                    f"Inventory details for the {wine.vintage} vintage {wine.wine_type}: Quantity: {wine.quantity}"
+                )
+            else:
+                print(f"We could not find the {args.vintage} vintage {args.type}")
+            return
+        if args.vintage:
+            wines = [
+                wine for wine in inventory._wine_batches if wine.vintage == args.vintage
+            ]
+            if wines:
+                for wine in wines:
+                    print(
+                        f"The {wine.vintage} vintage {wine.wine_type} has {wine.quantity} bottles."
+                    )
+            else:
+                print(f"The {args.vintage} vintage is unavailable.")
+            return
 
     @staticmethod
     @authenticated

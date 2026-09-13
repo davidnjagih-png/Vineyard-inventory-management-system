@@ -5,6 +5,30 @@
             "wine_type": "red",
             "vintage": "2002",
             "quantity": 20
+        },
+        {
+            "batch_id": "rose2002",
+            "wine_type": "rose",
+            "vintage": "2002",
+            "quantity": 8
+        },
+        {
+            "batch_id": "rose2004",
+            "wine_type": "rose",
+            "vintage": "2004",
+            "quantity": 8
+        },
+        {
+            "batch_id": "white2004",
+            "wine_type": "white",
+            "vintage": "2004",
+            "quantity": 15
+        },
+        {
+            "batch_id": "white2002",
+            "wine_type": "white",
+            "vintage": "2002",
+            "quantity": 15
         }
     ],
     "grapes": []
