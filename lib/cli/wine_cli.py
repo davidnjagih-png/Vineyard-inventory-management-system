@@ -92,7 +92,7 @@ class WineCli:
             else:
                 print(f"We could not find the {args.vintage} vintage {args.type}")
             return
-        if args.vintage:
+        elif args.vintage:
             wines = [
                 wine for wine in inventory._wine_batches if wine.vintage == args.vintage
             ]
@@ -103,6 +103,28 @@ class WineCli:
                     )
             else:
                 print(f"The {args.vintage} vintage is unavailable.")
+            return
+        elif args.type:
+            wines = [
+                wine for wine in inventory._wine_batches if wine.wine_type == args.type
+            ]
+            if wines:
+                for wine in wines:
+                    print(
+                        f"The {wine.wine_type} {wine.vintage} vintage has {wine.quantity} bottles."
+                    )
+            else:
+                print(f"There are no {args.type} wines available.")
+            return
+        else:
+            wines = [wine for wine in inventory._wine_batches]
+            if wines:
+                for wine in wines:
+                    print(
+                        f"The {wine.wine_type} {wine.vintage} vintage has {wine.quantity} bottles."
+                    )
+            else:
+                print("There are no wines available.")
             return
 
     @staticmethod
