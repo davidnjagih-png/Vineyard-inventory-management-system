@@ -1,5 +1,5 @@
 from .grape_stock import GrapeStock
-from .inventory_db import add_inventory_item, get_inventory_items
+from .inventory_db import add_inventory_item, delete_inventory_item, get_inventory_items
 from .wine_batch import WineBatch
 
 
@@ -49,7 +49,7 @@ class Inventory:
     def delete_wine_batch(self, batch_id):
         for batch in self._wine_batches:
             if batch.batch_id == batch_id:
-                self._wine_batches.remove(batch)
+                delete_inventory_item(batch)
                 return
 
         raise ValueError("wine batch not found.")

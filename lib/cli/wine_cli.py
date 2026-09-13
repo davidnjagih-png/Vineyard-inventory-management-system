@@ -128,13 +128,27 @@ class WineCli:
             return
 
     @staticmethod
-    @authenticated
+    @authenticated(role="manager")
     def handle_delete_wine(args):
         vintage = input("PLease specify a vintage: ")
-        type = input("PLease specify a type [all, red, white, rose]: ")
+        type = input("Please specify a type [all, red, white, rose]: ")
         verify = input(
             f"Are you sure you want to delete {type} from {vintage} (Yes / No) ?"
         )
-
-        if verify.lower() == "yes":
-            print("Deleted..")
+        inventory = Inventory()
+        try:
+            if verify.lower() == "yes":
+                if type == "all":
+                    wines = [
+                        wine
+                        for wine in inventory._wine_batches
+                        if wine.vintage == vintage
+                    ]
+                    for item in wines:
+                        inventory.delete_wine_batch(item.batch_id)
+                else:
+                    inventory.delete_wine_batch(type + vintage)
+            else:
+                print("Operation discarded")
+        except ValueError as e:
+            print(e)
