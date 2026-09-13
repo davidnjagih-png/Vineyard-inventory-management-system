@@ -1,4 +1,5 @@
 from lib.auth import authenticated
+from lib.inventory import Inventory
 
 
 class WineCli:
@@ -54,10 +55,19 @@ class WineCli:
         delete_wine_parser.set_defaults(func=WineCli.handle_delete_wine)
 
     @staticmethod
-    @authenticated
+    @authenticated(role="manager")
     def handle_add_wine(args):
         """Use args (type,vintage,quantity to add or update wines)"""
-        print(args)
+        inventory = Inventory()
+        try:
+            inventory.add_wine_batch(
+                batch_id=args.type + args.vintage,
+                wine_type=args.type,
+                vintage=args.vintage,
+                quantity=args.quantity,
+            )
+        except ValueError as e:
+            print(e)
 
     @staticmethod
     @authenticated

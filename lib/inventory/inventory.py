@@ -1,10 +1,11 @@
 from .grape_stock import GrapeStock
+from .inventory_db import add_inventory_item, get_inventory_items
 from .wine_batch import WineBatch
 
 
 class Inventory:
     def __init__(self):
-        self._wine_batches = []
+        self._wine_batches = Inventory.get_wine_batches()
         self._grape_stock = []
 
     def add_wine_batch(self, batch_id, wine_type, vintage, quantity):
@@ -14,10 +15,21 @@ class Inventory:
 
         batch = WineBatch(batch_id, wine_type, vintage, quantity)
 
-        self._wine_batches.append(batch)
+        add_inventory_item(batch)
 
-    def get_wine_batches(self):
-        return self._wine_batches
+    @staticmethod
+    def get_wine_batches():
+        data = get_inventory_items()
+        batches = [
+            WineBatch(
+                batch_id=wine["batch_id"],
+                wine_type=wine["wine_type"],
+                vintage=wine["vintage"],
+                quantity=wine["quantity"],
+            )
+            for wine in data["wine"]
+        ]
+        return batches
 
     def get_wine_batch(self, batch_id):
         for batch in self._wine_batches:

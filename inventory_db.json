@@ -1,0 +1,11 @@
+{
+    "wine": [
+        {
+            "batch_id": "red2002",
+            "wine_type": "red",
+            "vintage": "2002",
+            "quantity": 20
+        }
+    ],
+    "grapes": []
+}
