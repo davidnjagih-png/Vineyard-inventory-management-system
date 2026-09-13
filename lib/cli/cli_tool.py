@@ -3,6 +3,7 @@ import argparse
 from lib.auth import authenticated
 
 from .auth_cli import AuthCli
+from .grape_cli import GrapeCli
 from .sales_cli import SalesCli
 from .wine_cli import WineCli
 
@@ -36,6 +37,15 @@ def main():
     wine_cli.view_wine()
     # delete wine
     wine_cli.delete_wine()
+
+    # grape stock management
+    grape_cli = GrapeCli(subparser=subparser)
+    # add grape
+    grape_cli.add_grape()
+    # view grapes
+    grape_cli.view_grape()
+    # delete grape
+    grape_cli.delete_grape()
 
     # sales reports
     sales_cli = SalesCli(subparser=subparser)

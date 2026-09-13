@@ -86,8 +86,8 @@ class GrapeCli:
             grape = next(
                 (
                     grape
-                    for grape in inventory._grape_batches
-                    if grape.type == args.type and args.variety == grape.variety
+                    for grape in inventory._grape_stock
+                    if grape.grape_type == args.type and args.variety == grape.variety
                 ),
                 None,
             )
@@ -96,7 +96,9 @@ class GrapeCli:
                     f"Inventory details for the {grape.variety} variety {grape.grape_type}: Quantity: {grape.quantity}"
                 )
             else:
-                print(f"We could not find the {args.variety} variety {args.type}")
+                print(
+                    f"We could not find the {args.variety} variety in {args.type} grapes"
+                )
             return
         elif args.variety:
             grapes = [

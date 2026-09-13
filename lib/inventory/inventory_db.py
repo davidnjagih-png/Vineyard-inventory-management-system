@@ -22,7 +22,13 @@ def add_inventory_item(item):
             }
         )
     elif isinstance(item, GrapeStock):
-        data["grapes"].append({})
+        data["grapes"].append(
+            {
+                "grape_type": item.grape_type,
+                "variety": item.variety,
+                "quantity": item.quantity,
+            }
+        )
 
     with open("inventory_db.json", "w") as file:
         json.dump(data, file, indent=4)
