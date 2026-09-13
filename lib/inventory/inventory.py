@@ -54,8 +54,8 @@ class Inventory:
 
         raise ValueError("wine batch not found.")
 
-    def add_grape_stock(self, grape_type, quantity, quality=None, variety=None):
-        stock = GrapeStock(grape_type, quantity, quality, variety)
+    def add_grape_stock(self, grape_type, quantity, variety=None):
+        stock = GrapeStock(grape_type, quantity, variety)
         self._grape_stock.append(stock)
 
     def get_grape_stock(self, grape_type):
