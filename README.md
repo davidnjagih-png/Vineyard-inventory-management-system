@@ -11,6 +11,7 @@ pipenv shell
 
 - create a login portal with authentication and user management features.
 - the portal should allow users to login based on their credentials and access different features based on their roles.
+
 - The portal should include the following functionalities:
   - user login and logout (based on hardcoded credentials)
   - user profile:
