@@ -15,10 +15,12 @@ def test_grape_stock_stores_quantity():
 
     assert grapes.quantity == 10
 
+
 def test_grape_stock_stores_quality():
     grapes = GrapeStock("table grapes", 10, "good")
 
     assert grapes.quality == "good"
+
 
 def test_wine_grape_red_variety():
     grapes = GrapeStock("wine grapes", 10, "good", "red")

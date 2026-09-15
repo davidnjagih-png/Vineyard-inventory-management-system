@@ -15,7 +15,6 @@ def test_wine_batch_accepts_rose():
 
     assert batch.type == "rose"
 
-
 def test_wine_batch_stores_vintage():
     batch = WineBatch("red", 2024, 150)
 
@@ -25,7 +24,6 @@ def test_wine_batch_stores_quantity():
     batch = WineBatch("red", 2024, 150)
 
     assert batch.quantity == 150
-
 
 def test_estimated_wine_production():
     batch = WineBatch("red", 2024, 150)
@@ -39,7 +37,6 @@ def test_estimated_bottles():
     # 100 litres = 100,000 ml
     # 100,000 / 750 = 133.33 bottles
     assert batch.estimated_bottles() == 133.33
-
 
 def test_estimated_wine_value():
     batch = WineBatch("red", 2024, 150)
